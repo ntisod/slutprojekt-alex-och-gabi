@@ -97,9 +97,9 @@ namespace snake_game
                 Exit();
 
             // TO: Add your update logic here
-            player.Update(gameTime);
+            //player.Update(gameTime);
 
-            base.Update(gameTime);
+            //base.Update(gameTime);
 
             // TO. Add your update logic here
 
@@ -129,7 +129,8 @@ namespace snake_game
             // poäng varje gång snaken kolidrerar med kaninen
             if (player.CheckCollision(kanin))
             {
-                player.Points++; 
+                player.Points++;
+                player.newBodyPart=true;
                 Addkanin();
             }
 

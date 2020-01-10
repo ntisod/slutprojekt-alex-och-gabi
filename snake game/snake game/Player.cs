@@ -16,41 +16,38 @@ namespace snake_game
 
         float angel = 0;
         public int Points;
+        public bool newBodyPart = false;
 
         //lista på ormens delar
         public List<Body> bodyParts;
 
         Vector2 speed = new Vector2(32, 0);
         //Används för sinka ned hastigheten till någt lämpligt
-        int game_speed = 250;  //ändras när man äter en kanin för att spelet ska gå snabbare
-        int move_time;
+        int game_speed = 150;  //ändras när man äter en kanin för att spelet ska gå snabbare
+        int move_time; 
        
-        private Vector2 vector;
+        //private Vector2 vector;
 
 
         //konstruktur för att skapa objektet
-        public Player(Texture2D imige, float x, float y, int length) : base(imige, x, y)
+        public Player(Texture2D image, float x, float y, int length) : base(image, x, y)
         {
             bodyParts = new List<Body>();
 
-            int antBodyParts = 5;
+            //int antBodyParts = 5;
 
             for (int i = 1; i <= length; i++)
             {
-                Body temp = new Body(imige, X - i * 32, y);
+                Body temp = new Body(image, X - i * 32, y);
                 bodyParts.Add(temp);
             }
         }
-
-
-
 
 
         //Styrningen, hastighet och riktning.
         public void Update(GameTime gameTime)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
 
             if (keyboardState.IsKeyDown(Keys.Right))
             {
@@ -98,6 +95,15 @@ namespace snake_game
                     p.MoveTo(newpos);
                     newpos = oldpos;
                 }
+
+                //Om ny kroppsdel, skapa den
+                if (newBodyPart)
+                {
+                    Body temp = new Body(texture, newpos.X, newpos.Y);
+                    bodyParts.Add(temp);
+                    newBodyPart = false;
+                }
+
                 move_time = game_speed;
 
                 oldKs = keyboardState;
@@ -110,9 +116,9 @@ namespace snake_game
         public override void Draw(SpriteBatch spriteBatch)
         {
             // huvudedts rotation
-            spriteBatch.Draw(texture, vector + new Vector2(16, 16), null, Color.White, angel + (float)Math.PI / 2,
+        /*    spriteBatch.Draw(texture, vector + new Vector2(16, 16), null, Color.White, angel + (float)Math.PI / 2,
                 new Vector2(texture.Width / 2, texture.Height / 2), 1.0f, SpriteEffects.None, 0);
-
+                */
             foreach (Body p in bodyParts)
             {
                 p.Draw(spriteBatch);
